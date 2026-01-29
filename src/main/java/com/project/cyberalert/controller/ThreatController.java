@@ -1,7 +1,8 @@
 package com.project.cyberalert.controller;
 
 import com.project.cyberalert.entity.Threat;
-import com.project.cyberalert.repository.ThreatRepository;
+import com.project.cyberalert.service.ThreatService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,14 +11,21 @@ import java.util.List;
 @RequestMapping("/api/threats")
 public class ThreatController {
 
-    private final ThreatRepository threatRepository;
+    private final ThreatService threatService;
 
-    public ThreatController(ThreatRepository threatRepository) {
-        this.threatRepository = threatRepository;
+    public ThreatController(ThreatService threatService) {
+        this.threatService = threatService;
     }
 
+    // ADMIN / API can add threat
+    @PostMapping
+    public ResponseEntity<Threat> addThreat(@RequestBody Threat threat) {
+        return ResponseEntity.ok(threatService.saveThreat(threat));
+    }
+
+    // Dashboard / Map API
     @GetMapping
-    public List<Threat> getAllThreats() {
-        return threatRepository.findAll();
+    public ResponseEntity<List<Threat>> getAllThreats() {
+        return ResponseEntity.ok(threatService.getAllThreats());
     }
 }
