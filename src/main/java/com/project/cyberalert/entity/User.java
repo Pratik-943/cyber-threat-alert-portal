@@ -27,7 +27,12 @@ public class User {
     )
     private Set<Role> roles;
 
-    // 🔴 REQUIRED BY SPRING SECURITY
+    // ===== GETTERS =====
+
+    public Long getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -42,5 +47,27 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    // ===== SETTERS (Recommended for future use) =====
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
