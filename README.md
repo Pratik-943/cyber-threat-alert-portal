@@ -1,113 +1,151 @@
 🚨 Cyber Threat Alert Portal
 
-A Spring Boot–based backend application for managing cyber threat alerts with Role-Based Access Control (RBAC) and secure API endpoints.
+A Secure & Geo-Aware Cyber Threat Monitoring Backend built with Spring Boot, Role-Based Access Control, and an Automated Alert Engine.
 
-Built using:
+🌍 Overview
 
-Spring Boot 4.x
+Cyber Threat Alert Portal is a secure backend application designed to:
 
-Spring Security
+🔐 Authenticate users using Spring Security
 
-Spring Data JPA
+🛡️ Authorize admin operations using ROLE_ADMIN
 
-MySQL 8
+📍 Generate geo-based alerts automatically
 
-Maven
+🚨 Filter alerts based on severity levels
 
-Basic Authentication (for API testing)
+🗄️ Persist data using MySQL & JPA
 
-📌 Features
+🧱 Follow clean layered architecture principles
 
-✅ User Authentication (Spring Security)
+This project demonstrates secure backend engineering with real-world business logic implementation.
 
-✅ Role-Based Authorization (ADMIN role)
+🏗️ Architecture
+Controller Layer
+        ↓
+Service Layer
+        ↓
+Repository Layer
+        ↓
+MySQL Database
 
-✅ BCrypt Password Encryption
+Security operates independently through the Spring Security filter chain.
 
-✅ REST APIs
+🛠️ Tech Stack
+Layer	Technology
+Backend	Spring Boot 4.x
+Language	Java 21+
+Security	Spring Security
+ORM	Spring Data JPA (Hibernate)
+Database	MySQL 8
+Password Encoding	BCrypt
+Build Tool	Maven
+Authentication	HTTP Basic
+🔐 Security Features (Step-5)
 
-✅ MySQL Database Integration
+✔ Database-driven authentication
+✔ ROLE_ADMIN based authorization
+✔ BCrypt password hashing
+✔ CustomUserDetailsService implementation
+✔ Secured /api/admin/** endpoints
+✔ CSRF disabled for API testing
 
-✅ Secure Admin Endpoints
+Security Rules
+/api/admin/** → ROLE_ADMIN
+/api/threats/** → Public
+All other endpoints → Authenticated
+⚡ Automated Alert Engine (Step-6)
 
-✅ Basic Auth (Postman Friendly)
+When an Admin creates a Threat:
 
-🏗️ Project Architecture
+Threat is saved in database
+
+All UserPreferences are loaded
+
+System filters users by:
+
+Severity match
+
+Geo-distance using Haversine formula
+
+Matching Alerts are generated automatically
+
+📍 Geo-Distance Calculation
+
+Uses Haversine formula
+
+Earth radius = 6371 km
+
+Accurate spherical distance calculation
+
+This upgrades the system from simple CRUD → Intelligent Alert Processing Engine.
+
+📦 Project Structure
 com.project.cyberalert
+│
+├── controller
+│   ├── AdminController.java
+│   ├── ThreatController.java
+│   ├── UserAlertController.java
 │
 ├── entity
 │   ├── User.java
 │   ├── Role.java
-│   ├── Alert.java
 │   ├── Threat.java
+│   ├── Alert.java
+│   ├── UserPreference.java
 │
 ├── repository
 │   ├── UserRepository.java
 │   ├── RoleRepository.java
+│   ├── ThreatRepository.java
+│   ├── AlertRepository.java
+│   ├── UserPreferenceRepository.java
 │
 ├── service
 │   ├── CustomUserDetailsService.java
 │   ├── ThreatService.java
+│   ├── AlertService.java
+│   ├── UserPreferenceService.java
 │
 ├── security
 │   ├── SecurityConfig.java
 │
-├── controller
-│   ├── AdminController.java
+└── CyberThreatAlertPortalApplication.java
+🗄️ Database Tables
 
-🛠️ Tech Stack
-Layer	Technology
-Backend	Spring Boot 4
-Security	Spring Security
-ORM	Hibernate (JPA)
-Database	MySQL 8
-Build Tool	Maven
-Password Encoding	BCrypt
+users
+
+roles
+
+user_roles
+
+threats
+
+alerts
+
+user_preferences
+
 ⚙️ Database Configuration
 
 Update application.properties:
 
-spring.datasource.url=jdbc:mysql://localhost:3306/location_alert_db
+spring.datasource.url=jdbc:mysql://localhost:3306/cyber_alert
 spring.datasource.username=root
 spring.datasource.password=your_password
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
-
-🗄️ Database Schema
-roles
-id	name
-1	ROLE_ADMIN
-users
-id	username	password (BCrypt)	email	enabled
-1	admin	$2a$10$...	admin@cyberalert.local
-	1
-user_roles
-user_id	role_id
-1	1
-🔐 Security Configuration
-SecurityConfig.java
-
-CSRF disabled
-
-Basic Auth enabled
-
-/api/admin/** → ADMIN only
-
-All other endpoints → authenticated
-
 🔑 Default Admin Credentials
 Username: admin
 Password: admin123
 
-
-⚠ Password must be stored as BCrypt hash in DB.
+⚠ Password must be stored as BCrypt hash in database.
 
 🧪 API Testing (Postman)
 Admin Test Endpoint
 GET http://localhost:8080/api/admin/test
-
 
 Authorization:
 
@@ -119,53 +157,68 @@ Password → admin123
 
 Expected Response:
 
-200 OK
 ADMIN ACCESS GRANTED
-
 🚀 Run the Application
+Using Maven
+mvn spring-boot:run
 Using IDE
 
 Run:
 
 CyberThreatAlertPortalApplication.java
 
-Using Maven
-mvn spring-boot:run
-
-
 Application runs on:
 
 http://localhost:8080
+📊 Current Capabilities
 
-📂 Git Commands (Push to Repository)
-git add .
-git commit -m "Added secure ADMIN RBAC implementation"
-git push origin main
+✔ Secure Authentication
+✔ Role-Based Authorization
+✔ Admin-Only APIs
+✔ Threat Management
+✔ Automated Geo-Based Alert Generation
+✔ Severity Filtering
+✔ Clean Layered Architecture
 
-🔒 Security Notes
-
-Passwords stored using BCrypt
-
-Role prefix must be ROLE_
-
-Always use HTTPS in production
-
-Never store plain text passwords
-
-📌 Future Enhancements
+🔮 Future Enhancements
 
 JWT Authentication
 
-User Registration API
+WebSocket Real-Time Alerts
 
-Threat Management APIs
+Alert Pagination & Sorting
 
-Email Notifications
+Mark Alerts as Read
 
-Audit Logging
+Email / SMS Notification Integration
 
 Swagger API Documentation
+
+Event-Driven Processing (Kafka/RabbitMQ)
+
+📌 Development Milestones
+Step	Description
+Step-1	Project Setup
+Step-2	Entity Modeling
+Step-3	Repository Layer
+Step-4	Service Layer
+Step-5	Spring Security + RBAC
+Step-6	Automated Geo-Based Alert Engine
+⭐ Why This Project Stands Out
+
+Implements enterprise-grade security
+
+Demonstrates RBAC (Role-Based Access Control)
+
+Uses secure password hashing (BCrypt)
+
+Includes real-world geo-distance computation logic
+
+Maintains scalable backend design principles
+
+Clean separation of concerns
 
 👨‍💻 Author
 
 Pratik Kumar Nayak
+Backend Developer | Spring Boot | Security | System Design
