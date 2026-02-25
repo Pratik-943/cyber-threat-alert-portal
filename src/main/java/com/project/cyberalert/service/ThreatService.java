@@ -44,11 +44,24 @@ public class ThreatService {
 
         for (UserPreference pref : preferences) {
 
-            // Severity filter
-            if (!pref.getSeverityLevel().equalsIgnoreCase(threat.getSeverity())) {
-                continue;
+            // -------------------------
+            // Severity Filter
+            // -------------------------
+            if (pref.getMinSeverity() != null) {
+
+                // Convert both to uppercase for safe comparison
+                String threatSeverity = threat.getSeverity().toUpperCase();
+                String minSeverity = pref.getMinSeverity().toUpperCase();
+
+                // If threat severity does not match preference, skip
+                if (!threatSeverity.equals(minSeverity)) {
+                    continue;
+                }
             }
 
+            // -------------------------
+            // Distance Calculation
+            // -------------------------
             double distance = calculateDistance(
                     threat.getLatitude(),
                     threat.getLongitude(),
@@ -56,6 +69,9 @@ public class ThreatService {
                     pref.getLongitude()
             );
 
+            // -------------------------
+            // Radius Check
+            // -------------------------
             if (distance <= pref.getRadiusKm()) {
                 alertService.createAlert(
                         pref.getUser().getId(),

@@ -10,39 +10,77 @@ public class UserPreference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double latitude;
-
-    private double longitude;
-
-    private double radiusKm;
-
-    private String severityLevel;
-
-    @OneToOne
+    // ---------------------------
+    // Relationship with User
+    // ---------------------------
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // ===== Getters & Setters =====
+    // ---------------------------
+    // Alert Filtering Logic
+    // ---------------------------
+    @Column(name = "min_severity")
+    private String minSeverity;
 
-    public Long getId() { return id; }
+    @Column(name = "radius_km")
+    private Double radiusKm;
 
-    public double getLatitude() { return latitude; }
+    @Column(name = "latitude")
+    private Double latitude;
 
-    public void setLatitude(double latitude) { this.latitude = latitude; }
+    @Column(name = "longitude")
+    private Double longitude;
 
-    public double getLongitude() { return longitude; }
+    // ---------------------------
+    // Getters and Setters
+    // ---------------------------
 
-    public void setLongitude(double longitude) { this.longitude = longitude; }
+    public Long getId() {
+        return id;
+    }
 
-    public double getRadiusKm() { return radiusKm; }
+    public User getUser() {
+        return user;
+    }
 
-    public void setRadiusKm(double radiusKm) { this.radiusKm = radiusKm; }
+    public String getMinSeverity() {
+        return minSeverity;
+    }
 
-    public String getSeverityLevel() { return severityLevel; }
+    public Double getRadiusKm() {
+        return radiusKm;
+    }
 
-    public void setSeverityLevel(String severityLevel) { this.severityLevel = severityLevel; }
+    public Double getLatitude() {
+        return latitude;
+    }
 
-    public User getUser() { return user; }
+    public Double getLongitude() {
+        return longitude;
+    }
 
-    public void setUser(User user) { this.user = user; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setMinSeverity(String minSeverity) {
+        this.minSeverity = minSeverity;
+    }
+
+    public void setRadiusKm(Double radiusKm) {
+        this.radiusKm = radiusKm;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }
