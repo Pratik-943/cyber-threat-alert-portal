@@ -25,17 +25,37 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/threats/**").permitAll()
+
+                // allow frontend pages
+                .requestMatchers(
+                        "/",
+                        "/index.html",
+                        "/login.html",
+                        "/register.html",
+                        "/dashboard.html",
+                        "/admin.html"
+                ).permitAll()
+
+                // allow static resources
+                .requestMatchers(
+                        "/assets/**",
+                        "/css/**",
+                        "/js/**"
+                ).permitAll()
+
+                // allow authentication APIs
+                .requestMatchers("/api/auth/**").permitAll()
+
+                // everything else must be authenticated
                 .anyRequest().authenticated()
             )
-            // ✅ REQUIRED FOR SPRING SECURITY 6+
-            .httpBasic(Customizer.withDefaults());
+
+            .formLogin(form -> form.disable());
 
         return http.build();
     }

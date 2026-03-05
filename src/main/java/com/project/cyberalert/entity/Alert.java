@@ -11,41 +11,85 @@ public class Alert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-    private Long threatId;
+    // ----------------------------------
+    // Relationship with User
+    // ----------------------------------
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private boolean sent = true;
+    // ----------------------------------
+    // Relationship with Threat
+    // ----------------------------------
+    @ManyToOne
+    @JoinColumn(name = "threat_id")
+    private Threat threat;
 
-    // NEW FIELD (STEP-7)
-    private boolean readStatus = false;
+    // ----------------------------------
+    // Alert Status Fields
+    // ----------------------------------
+    @Column(name = "read_status")
+    private boolean readStatus;
 
+    @Column(name = "sent")
+    private boolean sent;
+
+    @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
-    // ===== GETTERS =====
+    // ----------------------------------
+    // Getters
+    // ----------------------------------
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Long getUserId() { return userId; }
+    public User getUser() {
+        return user;
+    }
 
-    public Long getThreatId() { return threatId; }
+    public Threat getThreat() {
+        return threat;
+    }
 
-    public boolean isSent() { return sent; }
+    public boolean isReadStatus() {
+        return readStatus;
+    }
 
-    public boolean isReadStatus() { return readStatus; }
+    public boolean isSent() {
+        return sent;
+    }
 
-    public LocalDateTime getSentAt() { return sentAt; }
+    public LocalDateTime getSentAt() {
+        return sentAt;
+    }
 
-    // ===== SETTERS =====
+    // ----------------------------------
+    // Setters
+    // ----------------------------------
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setUserId(Long userId) { this.userId = userId; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public void setThreatId(Long threatId) { this.threatId = threatId; }
+    public void setThreat(Threat threat) {
+        this.threat = threat;
+    }
 
-    public void setSent(boolean sent) { this.sent = sent; }
+    public void setReadStatus(boolean readStatus) {
+        this.readStatus = readStatus;
+    }
 
-    public void setReadStatus(boolean readStatus) { this.readStatus = readStatus; }
+    public void setSent(boolean sent) {
+        this.sent = sent;
+    }
 
-    public void setSentAt(LocalDateTime sentAt) { this.sentAt = sentAt; }
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
+    }
 }

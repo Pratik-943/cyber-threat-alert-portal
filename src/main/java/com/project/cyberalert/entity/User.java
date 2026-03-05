@@ -1,7 +1,6 @@
 package com.project.cyberalert.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,17 +16,19 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @Column
     private boolean enabled = true;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    public User() {
+    }
 
-    // ===== GETTERS =====
+    // -------------------------
+    // GETTERS
+    // -------------------------
 
     public Long getId() {
         return id;
@@ -41,15 +42,17 @@ public class User {
         return password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
     public boolean isEnabled() {
         return enabled;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    // ===== SETTERS (Recommended for future use) =====
+    // -------------------------
+    // SETTERS
+    // -------------------------
 
     public void setId(Long id) {
         this.id = id;
@@ -63,11 +66,11 @@ public class User {
         this.password = password;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
