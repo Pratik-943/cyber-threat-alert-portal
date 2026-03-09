@@ -2,23 +2,86 @@
 <html>
 
 <head>
+
 <title>User Dashboard</title>
-<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 
 <body>
 
-<div class="card">
+<script>
 
-<h1>User Dashboard</h1>
+// AUTH CHECK
 
-<p id="welcome"></p>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+window.location="/login.html";
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+document.getElementById("username").innerText = user.username;
+
+});
+
+function logout(){
+localStorage.removeItem("user");
+window.location="/login.html";
+}
+
+</script>
+
+<div class="navbar">
+
+<h2>User Security Dashboard</h2>
+
+<div>
+
+<span id="username"></span>
 
 <button onclick="logout()">Logout</button>
 
 </div>
 
-<script src="/assets/js/dashboard.js"></script>
+</div>
+
+
+<div class="dashboard-container">
+
+<!-- NOTIFICATIONS -->
+
+<div class="notifications">
+
+<h3>Your Threat Alerts</h3>
+
+<div id="alerts"></div>
+
+</div>
+
+
+<!-- MAP -->
+
+<div class="dashboard-map">
+
+<h3>Nearby Threat Map</h3>
+
+<div id="map"></div>
+
+</div>
+
+</div>
+
+
+<script src="assets/js/dashboard.js"></script>
 
 </body>
+
 </html>

@@ -1,27 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Cyber Threat Alert Portal</title>
-<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 
 <body>
 
-<div class="card">
+<div class="navbar">
 
 <h1>Cyber Threat Alert Portal</h1>
 
-<a href="/login.html">
-<button>Login</button>
-</a>
+<input type="text" id="searchInput"
+placeholder="Search location or threat type">
 
-<br><br>
-
-<a href="/register.html">
-<button>Register</button>
-</a>
+<div>
+<a href="login.html">Login</a>
+<a href="register.html">Register</a>
+</div>
 
 </div>
 
+<!-- RECENT THREATS -->
+
+<section class="recent-section">
+
+<h2>Recent Cyber Threats</h2>
+
+<div id="recentThreats" class="recent-grid"></div>
+
+</section>
+
+
+<!-- TOP 10 -->
+
+<section class="top-section">
+
+<h2>Top 10 Trending Threats</h2>
+
+<div id="topThreats" class="top-grid"></div>
+
+</section>
+
+
+<!-- MAP -->
+
+<section class="map-section">
+
+<h2>Global Threat Map</h2>
+
+<div id="map"></div>
+
+</section>
+
+
+<script src="assets/js/api.js"></script>
+
 </body>
+
 </html>

@@ -2,26 +2,92 @@
 <html>
 
 <head>
-<title>Register</title>
-<link rel="stylesheet" href="/assets/css/styles.css">
+<title>User Register</title>
+<link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
 
 <div class="card">
 
-<h2>Register</h2>
+<h2>Create Account</h2>
 
-<input id="username" placeholder="Username">
-<input id="password" type="password" placeholder="Password">
+<form id="registerForm">
 
-<button onclick="register()">Register</button>
+<input id="username" placeholder="Username" required>
 
-<p>Already have account? <a href="/login.html">Login</a></p>
+<input id="email" type="email" placeholder="Email" required>
+
+<input id="password" type="password" placeholder="Password" required>
+
+<button type="submit">Register</button>
+
+</form>
+
+<p>Already have account? <a href="login.html">Login</a></p>
 
 </div>
 
-<script src="/assets/js/auth.js"></script>
+<script>
+
+const form = document.getElementById("registerForm");
+
+form.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const username = document.getElementById("username").value;
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+try{
+
+const response = await fetch("/api/auth/register",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+username:username,
+email:email,
+password:password
+})
+
+});
+
+const data = await response.json();
+
+if(data.status === "USERNAME_EXISTS"){
+alert("Username already exists");
+return;
+}
+
+if(data.status === "EMAIL_EXISTS"){
+alert("Email already registered");
+return;
+}
+
+if(data.status === "SUCCESS"){
+alert("Registration successful");
+window.location="login.html";
+return;
+}
+
+alert("Registration failed");
+
+}catch(err){
+
+console.error(err);
+alert("Server error");
+
+}
+
+});
+
+</script>
 
 </body>
 </html>

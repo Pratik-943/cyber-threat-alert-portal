@@ -2,23 +2,127 @@
 <html>
 
 <head>
+
 <title>Admin Dashboard</title>
-<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 
 <body>
 
-<div class="card">
+<script>
 
-<h1>Admin Dashboard</h1>
+// AUTH CHECK
 
-<p>Cyber Threat Management Panel</p>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+window.location="/login.html";
+}
+
+const role = user.role.name || user.role;
+
+if(role !== "ROLE_ADMIN"){
+alert("Access denied");
+window.location="/dashboard.html";
+}
+
+function logout(){
+localStorage.removeItem("user");
+window.location="/login.html";
+}
+
+</script>
+
+<div class="navbar">
+
+<h2>Admin SOC Dashboard</h2>
+
+<div>
+
+<a href="index.html">Home</a>
 
 <button onclick="logout()">Logout</button>
 
 </div>
 
-<script src="/assets/js/admin.js"></script>
+</div>
+
+
+<div class="admin-container">
+
+<!-- ADD THREAT PANEL -->
+
+<div class="add-threat">
+
+<h3>Add Cyber Threat</h3>
+
+<input id="title" placeholder="Threat title">
+
+<input id="description" placeholder="Description">
+
+<input id="severity" placeholder="Severity (LOW/MEDIUM/HIGH/CRITICAL)">
+
+<input id="latitude" placeholder="Latitude">
+
+<input id="longitude" placeholder="Longitude">
+
+<input id="city" placeholder="City">
+
+<input id="country" placeholder="Country">
+
+<button onclick="addThreat()">Add Threat</button>
+
+</div>
+
+
+<!-- MAP -->
+
+<div class="admin-map">
+
+<h3>Threat Map</h3>
+
+<div id="map"></div>
+
+</div>
+
+
+<!-- THREAT TABLE -->
+
+<div class="threat-table">
+
+<h3>All Threats</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>Severity</th>
+<th>Location</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="threatList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="assets/js/admin.js"></script>
 
 </body>
+
 </html>

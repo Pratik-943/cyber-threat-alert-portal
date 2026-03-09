@@ -1,75 +1,49 @@
-async function login(){
+const form = document.getElementById("loginForm");
 
-const username=document.getElementById("username").value
-const password=document.getElementById("password").value
+if (form) {
 
-const res=await fetch("/api/auth/login",{
+form.addEventListener("submit", async function(e){
 
-method:"POST",
+e.preventDefault();
 
-headers:{
-"Content-Type":"application/json"
-},
+const username = document.getElementById("username").value;
+const password = document.getElementById("password").value;
 
-body:JSON.stringify({
-username:username,
-password:password
-})
+const response = await fetch("/api/auth/login", {
 
-})
-
-if(res.ok){
-
-const data=await res.json()
-
-localStorage.setItem("user",JSON.stringify(data))
-
-if(data.role==="ROLE_ADMIN"){
-window.location="/admin.html"
-}else{
-window.location="/dashboard.html"
-}
-
-}else{
-
-alert("Invalid credentials")
-
-}
-
-}
-
-
-
-async function register(){
-
-const username=document.getElementById("username").value
-const password=document.getElementById("password").value
-
-const res=await fetch("/api/auth/register",{
-
-method:"POST",
+method: "POST",
 
 headers:{
 "Content-Type":"application/json"
 },
 
-body:JSON.stringify({
-username:username,
-password:password
+body: JSON.stringify({
+username: username,
+password: password
 })
 
-})
+});
 
-if(res.ok){
+if(response.ok){
 
-alert("User created")
+const data = await response.json();
 
-window.location="/login.html"
+localStorage.setItem("user", JSON.stringify(data));
+
+const role = data.role.name || data.role;
+
+if(role === "ROLE_ADMIN"){
+window.location = "/admin.html";
+}else{
+window.location = "/dashboard.html";
+}
 
 }else{
 
-alert("Register failed")
+alert("Invalid credentials");
 
 }
+
+});
 
 }
